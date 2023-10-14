@@ -113,7 +113,7 @@ function App() {
   const getFoodData = (state,MenuName) => {
     axios
       .get(
-        `http://openapi.foodsafetykorea.go.kr/api/8158e54949f0468e88cf/I2790/json/1/5/DESC_KOR=${MenuName}`
+        `https://openapi.foodsafetykorea.go.kr/api/8158e54949f0468e88cf/I2790/json/1/5/DESC_KOR=${MenuName}`
       )
       .then(function (res) {
         console.log(res.data.I2790.MSG);
