@@ -7,32 +7,116 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.MainContainer{
+  height: 100vh;
+  width: 100%;
+  display: flex;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.div1{
+
+  border: solid 5px skyblue;
+  width: 50%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+
 }
 
-.App-link {
-  color: #61dafb;
+.divDetail{
+  height: 50px;
+  width: 95%;
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.divDetail Button{
+  font-size: 10px;
+  width: 80px;
+  height: 30px;
+}
+
+.input{
+  height: 30px;
+  width: 150px;
+  margin-right: 2%;
+  border-radius: 15px;
+  
+}
+
+.divMenu{
+  margin-top: 20px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  border-bottom: solid 0.5px #dee2e6;
+}
+.listDiv{
+  display: flex;
+}
+
+.divMargin{
+  margin-top: 5%;
+}
+
+.inputStyle{
+  margin-right: 2%;
+  border-radius: 15px;
+  width: 100px;
+  height: 30px;
+}
+
+.btn{
+  margin-left: 10px;
+}
+
+.title{
+  font-weight: bold;
+
+}
+
+.calculBtn{
+  margin-top: 8%;
+  width: 50%;
+  
+}
+.h1De{
+  font-weight: bold;
+}
+
+.h2De{
+  margin-top: 30px;
+  justify-self: center
+}
+
+.ri{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.marginBg{
+  
+  margin-bottom: 10px;
+}
+.pTag{
+  font-weight: bold;
+}
+
+.input2{
+  height: 30px;
+  width: 50px;
+  margin-right: 2%;
+  margin-left: 2%;
+  border-radius: 15px;
+}
+
+.selb{
+  width: 70px;
+  height: 30px;
+ 
 }
