@@ -1,11 +1,11 @@
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Nav, Navbar ,Button,Badge } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css"; //  여기서 선언하고 쓰겠다고  import (수입)
+import { Container, Nav, Navbar ,Button,Badge } from "react-bootstrap"; // 버튼이나 벳지 이런 컴포넌트들을 쓰려고 임포트했다 npm installl boot 이런식으로 다운 받아서 설치 했다 노드모듈에
 import Modal from 'react-bootstrap/Modal';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 function App() {
-
+  //상태값 정의
   const [morning,setMorning] = useState([])
   const [lunch,setLunch] = useState([])
   const [dinner,setDinner] = useState([])
@@ -14,6 +14,7 @@ function App() {
   const [lunchMenu,setLunchMenu] = useState("")
   const [dinnerMenu,setDinnerMenu] = useState("")
   const [snakMenu,setSnakMenu] = useState("")
+
   const [stateNumber,setStateNumber] = useState("") //아점저간 상태값
 
   const [morningList,setMorningList] = useState([])
@@ -32,6 +33,57 @@ function App() {
   console.log("점심리스트",lunchList)
   console.log("저녁리스트",dinnerList)
   console.log("간식리스트",snackList)
+
+  //useEffect
+  useEffect(() => {
+    const isMorningMenu = sessionStorage.getItem("아침");
+    const isLunchMenu = sessionStorage.getItem("점심");
+    const isDinnerMenu = sessionStorage.getItem("저녁");
+    const isSnackMenu = sessionStorage.getItem("간식");
+  
+
+   
+    let parsedMorningMenu = null;
+    let parsedLunchMenu = null;
+    let parsedDinnerMenu = null;
+    let parsedSnackMenu = null;
+  
+    console.log("sss",[...morning,JSON.parse(isMorningMenu)])
+    console.log("모닝:",morning,"모닝메뉴:",morringMenu,"모닝리스트:",morningList)
+
+
+    if (isMorningMenu) {
+      parsedMorningMenu = JSON.parse(isMorningMenu);
+      setMorning([...morning,parsedMorningMenu]);
+    }
+
+    if (isLunchMenu) {
+      parsedLunchMenu = JSON.parse(isLunchMenu)
+      setLunch([...lunch,parsedLunchMenu])
+    }
+
+    if (isDinnerMenu) {
+      parsedDinnerMenu = JSON.parse(isDinnerMenu)
+      setDinner([...lunch,parsedDinnerMenu])
+    }
+
+    if (isSnackMenu) {
+      parsedSnackMenu = JSON.parse(isSnackMenu)
+      setSnak([...lunch,parsedSnackMenu])
+    }
+  
+    // if (isLunchMenu) {
+    //   parsedLunchMenu = JSON.parse(isLunchMenu);
+    //   setLunch(parsedLunchMenu);
+    // }
+  
+   
+  
+  }, []); // 마운트될 때 한 번만 실행
+  
+
+
+  //이벤트 핸들러 (동작 정의,상태값 변경)
   const handleShow = () => {
     setShow(true);
   };
@@ -43,13 +95,23 @@ function App() {
     const menu = {name:item.name, cal:Number(item.cal) , gram: item.gram , myGram: gram}
 
     if(stateNumber === "아침"){
-    setMorning([...morning,menu])}
+    setMorning([...morning,menu])
+    const sessionMenu = JSON.stringify(menu)
+    sessionStorage.setItem("아침",sessionMenu)
+  }
     else if(stateNumber === "점심"){
       setLunch([...lunch,menu])
+      const sessionMenu = JSON.stringify(menu)
+      sessionStorage.setItem("점심",sessionMenu)
+      
     }else if(stateNumber === "저녁"){
       setDinner([...dinner,menu])
+      const sessionMenu = JSON.stringify(menu)
+      sessionStorage.setItem("저녁",sessionMenu)
     }else if(stateNumber === "간식"){
       setSnak([...snak,menu])
+      const sessionMenu = JSON.stringify(menu)
+      sessionStorage.setItem("간식",sessionMenu)
     }
     
     
@@ -58,13 +120,17 @@ function App() {
   const deleteMenu = (state) => {
     if(state === "아침"){
       setMorning([])
+      sessionStorage.removeItem("아침")
     }
     else if(state === "점심"){
       setLunch([])
+      sessionStorage.removeItem("점심")
     }else if(state === "저녁"){
       setDinner([])
+      sessionStorage.removeItem("저녁")
     }else if(state === "간식"){
       setSnak([])
+      sessionStorage.removeItem("간식")
     }
   }
 
@@ -110,6 +176,7 @@ function App() {
 
   console.log("총처먹은양",totalcal)
 
+  //restapi 호출 
   const getFoodData = (state,MenuName) => {
     axios
       .get(
@@ -118,6 +185,7 @@ function App() {
       .then(function (res) {
         console.log(res.data.I2790.MSG);
         console.log(res)
+        // 공공데이터에서 데이터 받아오는 코드
   let menuData = {};
 
   
@@ -150,9 +218,10 @@ function App() {
       });
   };
 
-
+ // html 부분임 
   return (
-    <Container className="MainContainer">
+
+            <Container className="MainContainer">
       <div className="div1">
         <div style={{borderBottom:"solid 1px black", width:"95%",}} className="divMargin">
           <h4 className="title">아침</h4>
@@ -298,7 +367,7 @@ function App() {
       <div className="divMenu">
         <p className="pTag">{item.name}</p>
         <input onChange={(e) => setCalorieInput(e.target.value)} className="input2"></input>
-        <Button
+        <div className="leftali">        <Button
          style={{fontSize:12,fontWeight:"bold"}}
           className="selb"
           onClick={() => {
@@ -308,6 +377,8 @@ function App() {
         >
           선택
         </Button>
+        </div>
+
       </div>
     ))
   ) : (
@@ -326,7 +397,7 @@ function App() {
         </Modal.Footer>
       </Modal>
     </Container>
-
+  
   );
 }
 
